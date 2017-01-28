@@ -45,12 +45,13 @@ class LSystem {
 }
 
 class Turtle {
-	constructor(state) {
+	constructor(state, dTheta) {
 		this.stack = [];
 		this.state = state;
+		this.dTheta = dTheta;
 
-		this.rotate = function(roationMatrix) {
-			// TODO
+		this.rotate = function(rotationMatrix) {
+			this.state.orientation = math.multiply(this.state.orientation, rotationMatrix);
 		};
 	}
 }

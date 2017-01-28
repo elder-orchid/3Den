@@ -1,11 +1,11 @@
-// Establish scene, camera, renderer, and controls as global variables.
+// Establish render related global variables.
 var scene, camera, renderer, controls;
 
 // Establish growth related global variables
-var turtle;
+var lsystem, turtle, rules;
 
 var init = function() {
-	// Initialize global variables
+	// Initialize render variables
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -19,10 +19,18 @@ var init = function() {
 	camera.position.set(0, 0, 100);
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-	var orientation = math.ones(3, 3);
-	var position = [0, 0, 0];
-	var state = {position: position, orientation: orientation};
-	turtle = new Turtle(state);
+	// Initialize growth variables
+	rules = {
+		'F' : new WeightedList({
+			'F+F' : 1
+		})
+	};
+	lsystem = new LSystem('F', rules);
+
+	lsystem.iterate();
+	lsystem.iterate();
+
+	runSystem();
 };
 
 var animate = function() {
