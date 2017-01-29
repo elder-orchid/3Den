@@ -13,6 +13,17 @@ var drawLine = function(point1, point2) {
 // Gets the end point of the line to be drawn based on the turtle's current orientation
 var getDestination = function() {
 
+	// TODO refactor
+	var dist = 10;
+
+	// Based on the header vector, return the resultant position
+	var heading = turtle.state.orientation.resize([1, 3])._data[0];
+	var destination = [];
+
+	for(var i = 0; i < heading.length; i++) {
+		destination.push(turtle.state.position[i] + heading[i] * dist);
+	}
+	return destination;
 };
 
 // Rotation matrices
@@ -94,7 +105,12 @@ var interpret = function(char) {
 var runSystem = function() {
 
 	// Re-initialize turtle
-	var orientation = math.ones(3, 3);
+	// ihat, jhat, khat
+	var orientation = math.matrix([
+			[1, 0, 0],
+			[0, 1, 0],
+			[0, 0, 1]
+	]);
 	var position = [0, 0, 0];
 	var state = {position: position, orientation: orientation};
 	turtle = new Turtle(state);
