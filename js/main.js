@@ -20,27 +20,35 @@ var init = function() {
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 	// Initialize growth variables
+	// rules = {
+	// 	'A' : new WeightedList({
+	// 		'[&FL!A]/////\'[&FL!A]///////\'[&FL!A]' : 1
+	// 	}),
+
+	// 	'F' : new WeightedList({
+	// 		'S/////F' : 1
+	// 	}),
+
+	// 	'S' : new WeightedList({
+	// 		'FL' : 1
+	// 	}),
+
+	// 	'L' : new WeightedList({
+	// 		'[\'\'\'^^{-F+F+F-|-F+F+F}]' : 1
+	// 	})
+	// };
+
 	rules = {
-		'A' : new WeightedList({
-			'[&FL!A]/////\'[&FL!A]///////\'[&FL!A]' : 1
-		}),
-
-		'F' : new WeightedList({
-			'S/////F' : 1
-		}),
-
-		'S' : new WeightedList({
-			'FL' : 1
-		}),
-
-		'L' : new WeightedList({
-			'[\'\'\'^^{-f+f+f-|-f+f+f}]' : 1
-		})
+		'A' : new WeightedList({'B-F+CFC+F-D&F^D-F+&&CFC+F+B//' : 1}),
+		'B' : new WeightedList({'A&F^CFB^F^D^-F-D^|F^B|FC^F^A//' : 1}),
+		'C' : new WeightedList({'|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//' : 1}),
+		'D' : new WeightedList({'|CFB-F+B|FA&F^A&&FB-F+B|FC//' : 1})
 	};
+
 	lsystem = new LSystem('A', rules);
 	//turtle.dTheta = Math.PI / 6;
 
-	for(var i = 0; i < 5; i++) {
+	for(var i = 0; i < 2; i++) {
 		lsystem.iterate();
 	}
 

@@ -1,6 +1,6 @@
 // Draws a line between two points
 var drawLine = function(point1, point2) {
-	var material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+	var material = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
 
 	var geometry = new THREE.Geometry();
 	geometry.vertices.push(new THREE.Vector3(point1[0], point1[1], point1[2]));
@@ -95,16 +95,6 @@ var interpret = function(char) {
 			turtle.state.position = destination;
 			break;
 
-		// Decrease branch girth
-		case '!':
-			// TODO
-			break;
-
-		// Increase index in color table
-		case '\'':
-			//TODO
-			break;
-
 		// Save state
 		case '[':
 			var oldState = {};
@@ -136,7 +126,7 @@ var runSystem = function() {
 	var position = [0, 0, 0];
 	var state = {position: position, orientation: orientation};
 	turtle = new Turtle(state);
-	turtle.dTheta = Math.PI / 6;
+	turtle.dTheta = Math.PI / 2;
 
 	for(var i = 0; i < lsystem.sentence.length; i++) {
 		interpret(lsystem.sentence.charAt(i));
