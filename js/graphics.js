@@ -107,12 +107,14 @@ var interpret = function(char) {
 
 		// Save state
 		case '[':
-			//turtle.stack.push(JSON.parse(JSON.stringify(turtle.state)));
+			var oldState = {};
+			Object.assign(oldState, turtle.state);
+			turtle.stack.push(oldState);
 			break;
 		
 		// Read state
 		case ']':
-			//turtle.state = turtle.stack.pop();
+			turtle.state = turtle.stack.pop();
 			break;
 
 		default:
