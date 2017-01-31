@@ -21,11 +21,23 @@ var init = function() {
 
 	// Initialize growth variables
 	rules = {
+		'A' : new WeightedList({
+			'[&FL!A]/////\'[&FL!A]///////\'[&FL!A]' : 1
+		}),
+
 		'F' : new WeightedList({
-			'F+F' : 1
+			'S/////F' : 1
+		}),
+
+		'S' : new WeightedList({
+			'FL' : 1
+		}),
+
+		'L' : new WeightedList({
+			'[\'\'\'^^{-f+f+f-|-f+f+f}]' : 1
 		})
 	};
-	lsystem = new LSystem('F', rules);
+	lsystem = new LSystem('A', rules);
 	//turtle.dTheta = Math.PI / 6;
 
 	for(var i = 0; i < 5; i++) {

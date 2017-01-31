@@ -95,6 +95,26 @@ var interpret = function(char) {
 			turtle.state.position = destination;
 			break;
 
+		// Decrease branch girth
+		case '!':
+			// TODO
+			break;
+
+		// Increase index in color table
+		case '\'':
+			//TODO
+			break;
+
+		// Save state
+		case '[':
+			//turtle.stack.push(JSON.parse(JSON.stringify(turtle.state)));
+			break;
+		
+		// Read state
+		case ']':
+			//turtle.state = turtle.stack.pop();
+			break;
+
 		default:
 			console.log('The character \'' + char + '\' had no affect');
 			break;
