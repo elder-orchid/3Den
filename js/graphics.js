@@ -114,6 +114,7 @@ var runSystem = function() {
 	var position = [0, 0, 0];
 	var state = {position: position, orientation: orientation};
 	turtle = new Turtle(state);
+	turtle.dTheta = Math.PI / 6;
 
 	for(var i = 0; i < lsystem.sentence.length; i++) {
 		interpret(lsystem.sentence.charAt(i));

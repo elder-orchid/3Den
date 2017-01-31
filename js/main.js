@@ -26,9 +26,11 @@ var init = function() {
 		})
 	};
 	lsystem = new LSystem('F', rules);
+	//turtle.dTheta = Math.PI / 6;
 
-	lsystem.iterate();
-	lsystem.iterate();
+	for(var i = 0; i < 5; i++) {
+		lsystem.iterate();
+	}
 
 	runSystem();
 };
