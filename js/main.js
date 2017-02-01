@@ -2,7 +2,7 @@
 var scene, camera, renderer, controls;
 
 // Establish growth related global variables
-var lsystem, turtle, rules;
+var lsystem, turtle, rules, properties;
 
 var init = function() {
 	// Initialize render variables
@@ -39,16 +39,14 @@ var init = function() {
 	// };
 
 	rules = {
-		'A' : new WeightedList({'B-F+CFC+F-D&F^D-F+&&CFC+F+B//' : 1}),
-		'B' : new WeightedList({'A&F^CFB^F^D^-F-D^|F^B|FC^F^A//' : 1}),
-		'C' : new WeightedList({'|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//' : 1}),
-		'D' : new WeightedList({'|CFB-F+B|FA&F^A&&FB-F+B|FC//' : 1})
+		'L' : new WeightedList({'+RF-LFL-FR+' : 1}),
+		'R' : new WeightedList({'-LF+RFR+FL-' : 1})
 	};
 
-	lsystem = new LSystem('A', rules);
+	lsystem = new LSystem('L', rules);
 	//turtle.dTheta = Math.PI / 6;
 
-	for(var i = 0; i < 2; i++) {
+	for(var i = 0; i < 4; i++) {
 		lsystem.iterate();
 	}
 

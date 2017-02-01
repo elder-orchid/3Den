@@ -1,6 +1,8 @@
 // Draws a line between two points
 var drawLine = function(point1, point2) {
-	var material = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
+	var lineColor = rgbToHex(hsvToRgb(properties.hue, 1, 1));
+	console.log(lineColor);
+	var material = new THREE.LineBasicMaterial({ color: lineColor});
 
 	var geometry = new THREE.Geometry();
 	geometry.vertices.push(new THREE.Vector3(point1[0], point1[1], point1[2]));
@@ -14,7 +16,7 @@ var drawLine = function(point1, point2) {
 var getDestination = function() {
 
 	// TODO refactor
-	var dist = 10;
+	var dist = 6;
 
 	// Based on the header vector, return the resultant position
 	var heading = turtle.state.orientation.resize([1, 3])._data[0];
@@ -93,6 +95,7 @@ var interpret = function(char) {
 			var destination = getDestination();
 			drawLine(turtle.state.position, destination);
 			turtle.state.position = destination;
+			properties.hue += .01;
 			break;
 
 		// Save state
@@ -115,7 +118,6 @@ var interpret = function(char) {
 
 // TODO rename?
 var runSystem = function() {
-
 	// Re-initialize turtle
 	// ihat, jhat, khat
 	var orientation = math.matrix([
@@ -127,6 +129,8 @@ var runSystem = function() {
 	var state = {position: position, orientation: orientation};
 	turtle = new Turtle(state);
 	turtle.dTheta = Math.PI / 2;
+
+	properties = {hue: 0};
 
 	for(var i = 0; i < lsystem.sentence.length; i++) {
 		interpret(lsystem.sentence.charAt(i));
