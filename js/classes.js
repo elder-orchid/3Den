@@ -51,7 +51,7 @@ class Turtle {
 		this.dTheta = dTheta;
 
 		this.rotate = function(rotationMatrix) {
-			this.state.orientation = math.multiply(this.state.orientation, rotationMatrix);
+			this.state.orientation = multiply(this.state.orientation, rotationMatrix);
 		};
 	}
 }

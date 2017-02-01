@@ -1,8 +1,7 @@
 // Draws a line between two points
 var drawLine = function(point1, point2) {
 	var lineColor = rgbToHex(hsvToRgb(properties.hue, 1, 1));
-	console.log(lineColor);
-	var material = new THREE.LineBasicMaterial({ color: lineColor});
+	var material = new THREE.LineBasicMaterial({color: lineColor});
 
 	var geometry = new THREE.Geometry();
 	geometry.vertices.push(new THREE.Vector3(point1[0], point1[1], point1[2]));
@@ -16,42 +15,63 @@ var drawLine = function(point1, point2) {
 var getDestination = function() {
 
 	// TODO refactor
-	var dist = 6;
+	var dist = 10;
 
 	// Based on the header vector, return the resultant position
-	var heading = turtle.state.orientation.resize([1, 3])._data[0];
-	var destination = [];
+	var orientation = turtle.state.orientation;
+	var destination = [0, 0, 0];
 
-	for(var i = 0; i < heading.length; i++) {
-		destination.push(turtle.state.position[i] + heading[i] * dist);
+	for(var i = 0; i < destination.length; i++) {
+		for(var j = 0; j < destination.length; j++) {
+			destination[i] += orientation[i][0] * dist;
+		}
+		destination[i] += turtle.state.position[i];
 	}
 	return destination;
 };
 
 // Rotation matrices
 var Ru = function(theta) {
-	return math.matrix([
+	return [
 		[Math.cos(theta), Math.sin(theta), 0],
 		[-Math.sin(theta), Math.cos(theta), 0],
 		[0, 0, 1]
-	]);
+	];
 };
 
 var Rl = function(theta) {
-	return math.matrix([
+	return [
 		[Math.cos(theta), 0, -Math.sin(theta)],
 		[0, 1, 0],
 		[Math.sin(theta), 0, Math.cos(theta)]
-	]);
+	];
 };
 
 var Rh = function(theta) {
-	return math.matrix([
+	return [
 		[1, 0, 0],
 		[0, Math.cos(theta), -Math.sin(theta)],
 		[0, Math.sin(theta), Math.cos(theta)]
-	]);
+	];
 };
+
+// Multiply matrices
+function multiply(a, b) {
+	var aNumRows = a.length, aNumCols = a[0].length,
+	bNumRows = b.length, bNumCols = b[0].length,
+	m = new Array(aNumRows);
+	for (var r = 0; r < aNumRows; ++r) {
+		m[r] = new Array(bNumCols);
+		for (var c = 0; c < bNumCols; ++c) {
+			m[r][c] = 0;
+			for (var i = 0; i < aNumCols; ++i) {
+			m[r][c] += a[r][i] * b[i][c];
+			}
+		}
+	}
+	return m;
+}
+
 
 var interpret = function(char) {
 	switch(char) {
@@ -95,7 +115,7 @@ var interpret = function(char) {
 			var destination = getDestination();
 			drawLine(turtle.state.position, destination);
 			turtle.state.position = destination;
-			properties.hue += .01;
+			properties.hue += .0002;
 			break;
 
 		// Save state
@@ -120,18 +140,19 @@ var interpret = function(char) {
 var runSystem = function() {
 	// Re-initialize turtle
 	// ihat, jhat, khat
-	var orientation = math.matrix([
+	var orientation = [
 			[1, 0, 0],
 			[0, 1, 0],
 			[0, 0, 1]
-	]);
+	];
 	var position = [0, 0, 0];
 	var state = {position: position, orientation: orientation};
 	turtle = new Turtle(state);
 	turtle.dTheta = Math.PI / 2;
 
-	properties = {hue: 0};
+	properties = {hue: 0, girth: 2};
 
+	interpret('^');
 	for(var i = 0; i < lsystem.sentence.length; i++) {
 		interpret(lsystem.sentence.charAt(i));
 	}
