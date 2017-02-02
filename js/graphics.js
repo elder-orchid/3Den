@@ -1,7 +1,7 @@
 // Draws a line between two points
 var drawLine = function(point1, point2) {
 	var lineColor = rgbToHex(hsvToRgb(properties.hue, 1, 1));
-	var material = new THREE.LineBasicMaterial({color: lineColor});
+	var material = new THREE.LineBasicMaterial({color: 0x835629});
 
 	var geometry = new THREE.Geometry();
 	geometry.vertices.push(new THREE.Vector3(point1[0], point1[1], point1[2]));
@@ -9,6 +9,20 @@ var drawLine = function(point1, point2) {
 
 	var line = new THREE.Line(geometry, material);
 	scene.add(line);
+};
+
+// Draws flower
+var drawFlower = function() {
+	// Move to current position
+	var pos = turtle.state.position;
+	
+	var geometry = new THREE.SphereGeometry(.5, 32, 32 );
+	var material = new THREE.MeshBasicMaterial( {color: 0x00FF00} );
+	var sphere = new THREE.Mesh(geometry, material);
+	
+	sphere.position.set(pos[0], pos[1], pos[2]);
+	
+	scene.add(sphere);
 };
 
 // Gets the end point of the line to be drawn based on the turtle's current orientation
@@ -117,10 +131,17 @@ var interpret = function(char) {
 			turtle.state.position = destination;
 			break;
 
+		// Increase index in color palette
 		case '\'':
+			// TODO update for tree
 			properties.hue += .0003;
 			break;
 
+		// Draws flower, or sphere in this case
+		case 'f':
+			drawFlower();
+			break;
+			
 		// Save state
 		case '[':
 			var oldState = {};
@@ -134,7 +155,7 @@ var interpret = function(char) {
 			break;
 
 		default:
-			console.log('The character \'' + char + '\' had no affect');
+			//console.log('The character \'' + char + '\' had no affect');
 			break;
 	}
 };
@@ -148,7 +169,7 @@ var runSystem = function() {
 			[0, 1, 0],
 			[0, 0, 1]
 	];
-	var position = [0, -50, 0];
+	var position = [0, 0, 0];
 	var state = {position: position, orientation: orientation};
 	turtle = new Turtle(state);
 	turtle.dTheta = Math.PI / 8;
