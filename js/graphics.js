@@ -15,7 +15,7 @@ var drawLine = function(point1, point2) {
 var getDestination = function() {
 
 	// TODO refactor
-	var dist = 10;
+	var dist = 1;
 
 	// Based on the header vector, return the resultant position
 	var orientation = turtle.state.orientation;
@@ -115,7 +115,10 @@ var interpret = function(char) {
 			var destination = getDestination();
 			drawLine(turtle.state.position, destination);
 			turtle.state.position = destination;
-			properties.hue += .0002;
+			break;
+
+		case '\'':
+			properties.hue += .0003;
 			break;
 
 		// Save state
@@ -145,14 +148,14 @@ var runSystem = function() {
 			[0, 1, 0],
 			[0, 0, 1]
 	];
-	var position = [0, 0, 0];
+	var position = [0, -50, 0];
 	var state = {position: position, orientation: orientation};
 	turtle = new Turtle(state);
-	turtle.dTheta = Math.PI / 2;
+	turtle.dTheta = Math.PI / 8;
 
 	properties = {hue: 0, girth: 2};
 
-	interpret('^');
+	turtle.rotate(Ru(-Math.PI/2));
 	for(var i = 0; i < lsystem.sentence.length; i++) {
 		interpret(lsystem.sentence.charAt(i));
 	}
