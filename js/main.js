@@ -19,6 +19,17 @@ var init = function() {
 	camera.position.set(0, 0, 200);
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
+	// Initialize floor
+	var floorTexture = new THREE.ImageUtils.loadTexture( 'img/tile.jpg' );
+	floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
+	floorTexture.repeat.set(10, 10);
+	var floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide});
+	var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+	var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+	floor.position.y = -0.5;
+	floor.rotation.x = Math.PI / 2;
+	scene.add(floor);
+
 	// Initialize growth variables
 	rules = {
 		'A' : new WeightedList({'[&FL!A]/////\'[&FL!A]///////\'[&FL!A]' : 1}),
@@ -29,7 +40,7 @@ var init = function() {
 
 	lsystem = new LSystem('A', rules);
 
-	for(var i = 0; i < 7; i++) {
+	for(var i = 0; i < 3; i++) {
 		lsystem.iterate();
 	}
 
@@ -37,8 +48,8 @@ var init = function() {
 };
 
 var animate = function() {
-	requestAnimationFrame(animate);
 	controls.update();
+	requestAnimationFrame(animate);
 };
 
 var render = function() {
