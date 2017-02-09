@@ -14,18 +14,21 @@ var drawLine = function(point1, point2) {
 	var geometry = new THREE.CylinderGeometry(turtle.state.girth, turtle.state.girth, dist, 20);
 	geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, dist / 2, 0));
 
-	var material = new THREE.MeshBasicMaterial({color: 0x844400});
+
+	var material = new THREE.MeshLambertMaterial( { color: 0x844400, shading: THREE.SmoothShading } );
 	var cylinder = new THREE.Mesh(geometry, material);
 
 	// Use arrow properties
-	cylinder.position.x = arrow.position.x;
-	cylinder.position.y = arrow.position.y;
-	cylinder.position.z = arrow.position.z;
-	
+	Object.assign(cylinder.position, arrow.position);
+
+	// TODO oneliner
 	cylinder.rotation.x = arrow.rotation.x;
 	cylinder.rotation.y = arrow.rotation.y;
 	cylinder.rotation.z = arrow.rotation.z;
 	
+	cylinder.castShadow = true;
+	cylinder.receiveShadow = false;
+
 	scene.add(cylinder);
 };
 
