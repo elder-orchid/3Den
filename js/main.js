@@ -20,7 +20,8 @@ var init = function() {
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 	// Initialize floor
-	var floorTexture = new THREE.ImageUtils.loadTexture( 'img/tile.jpg' );
+	var loader = new THREE.TextureLoader();
+	var floorTexture = new loader.load('img/tile.jpg');
 	floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
 	floorTexture.repeat.set(10, 10);
 	var floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide});
@@ -32,10 +33,10 @@ var init = function() {
 
 	// Initialize growth variables
 	rules = {
-		'A' : new WeightedList({'[&FL!A]/////\'[&FL!A]///////\'[&FL!A]' : 1}),
-		'F' : new WeightedList({'S ///// F' : 1}),
-		'S' : new WeightedList({'F L' : 1}),
-		'L' : new WeightedList({'[\'\'\'^^{-f+f+f-|-f+f+f}]' : 1})
+		'A' : {successor: '[&FL!A]/////\'[&FL!A]///////\'[&FL!A]'},
+		'F' : {successor: 'S ///// F'},
+		'S' : {successor: 'F L'},
+		'L' : {successor: '[\'\'\'^^{-f+f+f-|-f+f+f}]'}
 	};
 
 	lsystem = new LSystem('A', rules);

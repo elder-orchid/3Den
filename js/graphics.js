@@ -3,12 +3,14 @@ var drawLine = function(point1, point2) {
 	var lineColor = rgbToHex(hsvToRgb(properties.hue, 1, 1));
 	var material = new THREE.LineBasicMaterial({color: 0x835629});
 
-	var geometry = new THREE.Geometry();
-	geometry.vertices.push(new THREE.Vector3(point1[0], point1[1], point1[2]));
-	geometry.vertices.push(new THREE.Vector3(point2[0], point2[1], point2[2]));
+	var geometry = new THREE.CylinderGeometry(properties.girth, properties.girth, properties.distance, 32);
 
-	var line = new THREE.Line(geometry, material);
-	scene.add(line);
+	var origin = new THREE.Vector3(point1[0], point1[1], point1[2]);
+	var terminus  = new THREE.Vector3(point2[0], point2[1], point2[2]);
+	var direction = new THREE.Vector3().subVectors(terminus, origin).normalize();
+	var arrow = new THREE.ArrowHelper(direction, origin, properties.distance * 3, 0x884400);
+
+	scene.add(arrow);
 };
 
 // Draws flower
@@ -28,16 +30,13 @@ var drawFlower = function() {
 // Gets the end point of the line to be drawn based on the turtle's current orientation
 var getDestination = function() {
 
-	// TODO refactor
-	var dist = 1;
-
 	// Based on the header vector, return the resultant position
 	var orientation = turtle.state.orientation;
 	var destination = [0, 0, 0];
 
 	for(var i = 0; i < destination.length; i++) {
 		for(var j = 0; j < destination.length; j++) {
-			destination[i] += orientation[i][0] * dist;
+			destination[i] += orientation[i][0] * properties.distance;
 		}
 		destination[i] += turtle.state.position[i];
 	}
@@ -174,7 +173,7 @@ var runSystem = function() {
 	turtle = new Turtle(state);
 	turtle.dTheta = Math.PI / 8;
 
-	properties = {hue: 0, girth: 2};
+	properties = {hue: 0, girth: 2, distance: 10};
 
 	turtle.rotate(Ru(-Math.PI/2));
 	for(var i = 0; i < lsystem.sentence.length; i++) {
