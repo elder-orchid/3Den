@@ -41,7 +41,7 @@ var init = function() {
 
 	lsystem = new LSystem('A', rules);
 
-	for(var i = 0; i < 3; i++) {
+	for(var i = 0; i < 4; i++) {
 		lsystem.iterate();
 	}
 

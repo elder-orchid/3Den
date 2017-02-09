@@ -1,16 +1,32 @@
 // Draws a line between two points
 var drawLine = function(point1, point2) {
 	var lineColor = rgbToHex(hsvToRgb(properties.hue, 1, 1));
-	var material = new THREE.LineBasicMaterial({color: 0x835629});
 
-	var geometry = new THREE.CylinderGeometry(properties.girth, properties.girth, properties.distance, 32);
+	var dist = properties.distance * 3;
 
+	// Create arrow
 	var origin = new THREE.Vector3(point1[0], point1[1], point1[2]);
 	var terminus  = new THREE.Vector3(point2[0], point2[1], point2[2]);
 	var direction = new THREE.Vector3().subVectors(terminus, origin).normalize();
-	var arrow = new THREE.ArrowHelper(direction, origin, properties.distance * 3, 0x884400);
+	var arrow = new THREE.ArrowHelper(direction, origin);
 
-	scene.add(arrow);
+	// Create cylinder
+	var geometry = new THREE.CylinderGeometry(turtle.state.girth, turtle.state.girth, dist, 20);
+	geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, dist / 2, 0));
+
+	var material = new THREE.MeshBasicMaterial({color: 0x844400});
+	var cylinder = new THREE.Mesh(geometry, material);
+
+	// Use arrow properties
+	cylinder.position.x = arrow.position.x;
+	cylinder.position.y = arrow.position.y;
+	cylinder.position.z = arrow.position.z;
+	
+	cylinder.rotation.x = arrow.rotation.x;
+	cylinder.rotation.y = arrow.rotation.y;
+	cylinder.rotation.z = arrow.rotation.z;
+	
+	scene.add(cylinder);
 };
 
 // Draws flower
@@ -18,7 +34,7 @@ var drawFlower = function() {
 	// Move to current position
 	var pos = turtle.state.position;
 	
-	var geometry = new THREE.SphereGeometry(.5, 32, 32 );
+	var geometry = new THREE.SphereGeometry(properties.distance / 2, 32, 32 );
 	var material = new THREE.MeshBasicMaterial( {color: 0x00FF00} );
 	var sphere = new THREE.Mesh(geometry, material);
 	
@@ -136,6 +152,12 @@ var interpret = function(char) {
 			properties.hue += .0003;
 			break;
 
+		// Increase index in color palette
+		case '!':
+			// TODO update for tree
+			turtle.state.girth -= .6;
+			break;
+
 		// Draws flower, or sphere in this case
 		case 'f':
 			drawFlower();
@@ -169,11 +191,11 @@ var runSystem = function() {
 			[0, 0, 1]
 	];
 	var position = [0, 0, 0];
-	var state = {position: position, orientation: orientation};
+	var state = {position: position, orientation: orientation, girth: 3};
 	turtle = new Turtle(state);
 	turtle.dTheta = Math.PI / 8;
 
-	properties = {hue: 0, girth: 2, distance: 10};
+	properties = {hue: 0, distance: 10};
 
 	turtle.rotate(Ru(-Math.PI/2));
 	for(var i = 0; i < lsystem.sentence.length; i++) {
