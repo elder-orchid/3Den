@@ -15,7 +15,7 @@ var drawLine = function(point1, point2) {
 	geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, dist / 2, 0));
 
 
-	var material = new THREE.MeshLambertMaterial( { color: 0x844400, shading: THREE.SmoothShading } );
+	var material = new THREE.MeshLambertMaterial({ color: 0x844400, shading: THREE.SmoothShading });
 	var cylinder = new THREE.Mesh(geometry, material);
 
 	// Use arrow properties
@@ -37,8 +37,8 @@ var drawFlower = function() {
 	// Move to current position
 	var pos = turtle.state.position;
 	
-	var geometry = new THREE.SphereGeometry(properties.distance / 2, 32, 32 );
-	var material = new THREE.MeshBasicMaterial( {color: 0x00FF00} );
+	var geometry = new THREE.SphereGeometry(properties.distance / 2, 32, 32);
+	var material = new THREE.MeshLambertMaterial({color: 0x00FF00});
 	var sphere = new THREE.Mesh(geometry, material);
 	
 	sphere.position.set(pos[0], pos[1], pos[2]);
@@ -151,17 +151,20 @@ var interpret = function(char) {
 
 		// Increase index in color palette
 		case '\'':
-			// TODO update for tree
-			properties.hue += .0003;
+			// Todo actually implement color palette
+			//properties.hue += .03;
 			break;
 
-		// Increase index in color palette
+		// Decrease branch girth
 		case '!':
-			// TODO update for tree
 			turtle.state.girth -= .6;
 			break;
 
 		// Draws flower, or sphere in this case
+		case 'A':
+			drawFlower();
+			break;
+
 		case 'f':
 			drawFlower();
 			break;

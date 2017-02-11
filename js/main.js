@@ -21,7 +21,7 @@ var init = function() {
 
 	// Add lighting
 	var spotLight = new THREE.SpotLight( 0xFFFFFF, 1);
-	spotLight.position.set(105, 300, 35);
+	spotLight.position.set(105, 500, 35);
 	spotLight.castShadow = true;
 	spotLight.angle = Math.PI / 4;
 	spotLight.penumbra = 0.05;
@@ -34,7 +34,7 @@ var init = function() {
 	scene.add(spotLight);
 	
 	lightHelper = new THREE.SpotLightHelper(spotLight);
-	scene.add(lightHelper);
+	//scene.add(lightHelper);
 
 	// Add controls
 	controls = new THREE.OrbitControls(camera);
@@ -59,14 +59,14 @@ var init = function() {
 	// Initialize growth variables
 	rules = {
 		'A' : {successor: '[&FL!A]/////\'[&FL!A]///////\'[&FL!A]'},
-		'F' : {successor: 'S ///// F'},
-		'S' : {successor: 'F L'},
-		'L' : {successor: '[\'\'\'^^{-f+f+f-|-f+f+f}]'}
+		'F' : {successor: 'S/////F'},
+		'S' : {successor: 'FL'},
+		'L' : {successor: '[\'\'\'^^f]'}
 	};
 
 	lsystem = new LSystem('A', rules);
 
-	for(var i = 0; i < 4; i++) {
+	for(var i = 0; i < 3; i++) {
 		lsystem.iterate();
 	}
 
