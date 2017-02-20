@@ -37,7 +37,7 @@ var drawFlower = function() {
 	// Move to current position
 	var pos = turtle.state.position;
 	
-	var geometry = new THREE.SphereGeometry(properties.distance / 2, 32, 32);
+	var geometry = new THREE.SphereGeometry(properties.distance, 32, 32);
 	var material = new THREE.MeshLambertMaterial({color: 0x00FF00});
 	var sphere = new THREE.Mesh(geometry, material);
 	
@@ -157,7 +157,7 @@ var interpret = function(char) {
 
 		// Decrease branch girth
 		case '!':
-			turtle.state.girth -= .6;
+			turtle.state.girth -= 1.3;
 			break;
 
 		// Draws flower, or sphere in this case
@@ -187,7 +187,6 @@ var interpret = function(char) {
 	}
 };
 
-// TODO rename?
 var runSystem = function() {
 	// Re-initialize turtle
 	// ihat, jhat, khat
@@ -197,7 +196,7 @@ var runSystem = function() {
 			[0, 0, 1]
 	];
 	var position = [0, 0, 0];
-	var state = {position: position, orientation: orientation, girth: 3};
+	var state = {position: position, orientation: orientation, girth: 8};
 	turtle = new Turtle(state);
 	turtle.dTheta = Math.PI / 8;
 

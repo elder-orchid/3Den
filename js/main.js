@@ -1,5 +1,5 @@
 // Establish render related global variables.
-var scene, camera, renderer, controls;
+var scene, camera, renderer, controls, datGUI;
 
 // Establish growth related global variables
 var lsystem, turtle, rules, properties;
@@ -66,7 +66,7 @@ var init = function() {
 
 	lsystem = new LSystem('A', rules);
 
-	for(var i = 0; i < 3; i++) {
+	for(var i = 0; i < 5; i++) {
 		lsystem.iterate();
 	}
 
