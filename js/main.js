@@ -5,6 +5,7 @@ var scene, camera, renderer, controls, datGUI;
 var lsystem, turtle, rules, properties;
 var lightHelper;
 var guiproperties = {};
+var afolder, lfolder;
 
 var init = function() {
 	// Initialize render variables
@@ -14,8 +15,6 @@ var init = function() {
 	renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
-
-	configureGUI();
 
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -62,12 +61,12 @@ var init = function() {
 	// Initialize growth variables
 	rules = '{"A": "[&FL!A]/////\'[&FL!A]///////\'[&FL!A]", "F": "S/////F", "S": "FL", "L": "[\'\'\'^^f]"}';
 
-	lsystem = new LSystem('A', ['F'], rules);
+	lsystem = new LSystem('A', 'F', rules);
 
 	for(var i = 0; i < 5; i++) {
 		lsystem.iterate();
 	}
-
+	configureGUI();
 	runSystem();
 };
 
@@ -83,6 +82,24 @@ var render = function() {
 
 var configureGUI = function() {
 	gui = new dat.GUI({ load: getExamples(), preset: 'Koch Snowflake' });
+	gui.remember(lsystem.properties);
+	gui.remember(lsystem);
+	//gui.remember(turtle.dTheta);
+	gui.remember(guiproperties);
+
+	// LSystem folder containing variables pertinent to the construction of the system
+	lfolder = gui.addFolder('LSystem');
+	lfolder.add(lsystem, 'axiom').onFinishChange(function(){runSystem();});
+	lfolder.add(lsystem, 'constants');
+	lfolder.add(lsystem, 'rules').onFinishChange(function(){runSystem();});
+	//lfolder.add(lsystem.properties, 'angle', 0, 180);
+	
+	// Appearance folder containing variables pertinent to the user experience
+	afolder = gui.addFolder('Appearance');
+	// afolder.add(guiproperties, 'dhue', 0, 100);
+	// afolder.add(guiproperties, 'iterations', 0, 16).step(1).onFinishChange(function(){runSystem();});
+	// afolder.add(guiproperties, 'zoom', 0, 100);
+	// afolder.add(guiproperties, 'rotation', 0, 360);
 };
 
 // Initialize our program and begin animation.
