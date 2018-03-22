@@ -4,6 +4,7 @@ var scene, camera, renderer, controls, datGUI;
 // Establish growth related global variables
 var lsystem, turtle, rules, properties;
 var lightHelper;
+var guiproperties = {};
 
 var init = function() {
 	// Initialize render variables
@@ -13,6 +14,8 @@ var init = function() {
 	renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
+
+	configureGUI();
 
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -57,14 +60,9 @@ var init = function() {
 	scene.add(floor);
 
 	// Initialize growth variables
-	rules = {
-		'A' : {successor: '[&FL!A]/////\'[&FL!A]///////\'[&FL!A]'},
-		'F' : {successor: 'S/////F'},
-		'S' : {successor: 'FL'},
-		'L' : {successor: '[\'\'\'^^f]'}
-	};
+	rules = '{"A": "[&FL!A]/////\'[&FL!A]///////\'[&FL!A]", "F": "S/////F", "S": "FL", "L": "[\'\'\'^^f]"}';
 
-	lsystem = new LSystem('A', rules);
+	lsystem = new LSystem('A', ['F'], rules);
 
 	for(var i = 0; i < 5; i++) {
 		lsystem.iterate();
@@ -81,6 +79,10 @@ var animate = function() {
 var render = function() {
 	lightHelper.update();
     renderer.render(scene, camera);
+};
+
+var configureGUI = function() {
+	gui = new dat.GUI({ load: getExamples(), preset: 'Koch Snowflake' });
 };
 
 // Initialize our program and begin animation.
