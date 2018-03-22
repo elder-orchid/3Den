@@ -29,7 +29,7 @@ var drawLine = function(point1, point2) {
 	cylinder.castShadow = true;
 	cylinder.receiveShadow = false;
 
-	scene.add(cylinder);
+	treeparts.add(cylinder);
 };
 
 // Draws flower
@@ -43,7 +43,7 @@ var drawFlower = function() {
 	
 	sphere.position.set(pos[0], pos[1], pos[2]);
 	
-	scene.add(sphere);
+	treeparts.add(sphere);
 };
 
 // Gets the end point of the line to be drawn based on the turtle's current orientation
@@ -188,6 +188,12 @@ var interpret = function(char) {
 };
 
 var runSystem = function() {
+	// Remove existing branches in case this is an update
+	scene.remove(scene.getObjectByName('treeparts'));
+
+	treeparts = new THREE.Group();
+	treeparts.name = 'treeparts';
+
 	// Re-initialize turtle
 	// ihat, jhat, khat
 	var orientation = [
@@ -203,7 +209,16 @@ var runSystem = function() {
 	properties = {hue: 0, distance: 10};
 
 	turtle.rotate(Ru(-Math.PI/2));
+
+	lsystem.sentence = lsystem.axiom;
+	for(var i = 0; i < guiproperties.iterations; i++) {
+		lsystem.iterate();
+	}
+
 	for(var i = 0; i < lsystem.sentence.length; i++) {
 		interpret(lsystem.sentence.charAt(i));
 	}
+
+	// Add all of the parts of the tree to the actual scene
+	scene.add(treeparts);
 }

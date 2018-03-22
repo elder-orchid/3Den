@@ -4,8 +4,10 @@ var scene, camera, renderer, controls, datGUI;
 // Establish growth related global variables
 var lsystem, turtle, rules, properties;
 var lightHelper;
-var guiproperties = {};
+var guiproperties = { iterations: 3 };
 var afolder, lfolder;
+
+var treeparts;
 
 var init = function() {
 	// Initialize render variables
@@ -63,9 +65,7 @@ var init = function() {
 
 	lsystem = new LSystem('A', 'F', rules);
 
-	for(var i = 0; i < 5; i++) {
-		lsystem.iterate();
-	}
+	
 	configureGUI();
 	runSystem();
 };
@@ -97,7 +97,7 @@ var configureGUI = function() {
 	// Appearance folder containing variables pertinent to the user experience
 	afolder = gui.addFolder('Appearance');
 	// afolder.add(guiproperties, 'dhue', 0, 100);
-	// afolder.add(guiproperties, 'iterations', 0, 16).step(1).onFinishChange(function(){runSystem();});
+	afolder.add(guiproperties, 'iterations', 0, 16).step(1).onFinishChange(function(){runSystem();});
 	// afolder.add(guiproperties, 'zoom', 0, 100);
 	// afolder.add(guiproperties, 'rotation', 0, 360);
 };
