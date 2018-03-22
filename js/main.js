@@ -61,9 +61,7 @@ var init = function() {
 	scene.add(floor);
 
 	// Initialize growth variables
-	rules = '{"A": "[&FL!A]/////\'[&FL!A]///////\'[&FL!A]", "F": "S/////F", "S": "FL", "L": "[\'\'\'^^f]"}';
-
-	lsystem = new LSystem('A', 'F', rules);
+	lsystem = new LSystem('', '', '{}', {});
 
 	
 	configureGUI();
@@ -81,7 +79,7 @@ var render = function() {
 };
 
 var configureGUI = function() {
-	gui = new dat.GUI({ load: getExamples(), preset: 'Koch Snowflake' });
+	gui = new dat.GUI({ load: getExamples(), preset: 'Tree' });
 	gui.remember(lsystem.properties);
 	gui.remember(lsystem);
 	//gui.remember(turtle.dTheta);

@@ -1,11 +1,11 @@
 var getExamples = function() {
 	return {
-		'preset': 'Koch',
+		'preset': 'Tree',
 		'closed': false,
 		'remembered' : {
-			'thing?': {
+			'Tree': {
 				'0': {
-					'angle': 36
+					//'angle': 36
 				},
 				'1': {
 					'axiom': 'A',
@@ -13,10 +13,7 @@ var getExamples = function() {
 					'constants': 'F'
 				},
 				'2': {
-					'iterations': 5,
-					'dhue': 1.3,
-					'zoom': 38,
-					'rotation': 0
+					'iterations': 3,
 				}
 			}
 		},
