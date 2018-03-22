@@ -204,7 +204,7 @@ var runSystem = function() {
 	var position = [0, 0, 0];
 	var state = {position: position, orientation: orientation, girth: 8};
 	turtle = new Turtle(state);
-	turtle.dTheta = Math.PI / 8;
+	turtle.dTheta = Math.PI / 2;
 
 	properties = {hue: 0, distance: 10};
 

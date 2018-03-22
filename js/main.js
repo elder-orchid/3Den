@@ -79,7 +79,7 @@ var render = function() {
 };
 
 var configureGUI = function() {
-	gui = new dat.GUI({ load: getExamples(), preset: 'Tree' });
+	gui = new dat.GUI({ load: getExamples(), preset: 'Hilbert' });
 	gui.remember(lsystem.properties);
 	gui.remember(lsystem);
 	//gui.remember(turtle.dTheta);
