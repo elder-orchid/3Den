@@ -1,8 +1,7 @@
 var getExamples = function() {
 	return {
-		'preset': 'Tree',
 		'closed': false,
-		'remembered' : {
+		'remembered': {
 			'Tree': {
 				'0': {
 					//'angle': 36
@@ -13,7 +12,10 @@ var getExamples = function() {
 					'constants': 'F'
 				},
 				'2': {
-					'iterations': 3
+					'iterations': 3,
+					'hue': .31,
+					'dhue': 0,
+					'rotation': 22.5
 				}
 			},
 			'Hilbert': {
@@ -26,7 +28,10 @@ var getExamples = function() {
 					'constants': 'F'
 				},
 				'2': {
-					'iterations': 2
+					'iterations': 2,
+					'hue': 0,
+					'dhue': 3.8,
+					'rotation': 90
 				}
 			}
 		},

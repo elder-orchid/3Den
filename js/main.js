@@ -4,12 +4,17 @@ var scene, camera, renderer, controls, datGUI;
 // Establish growth related global variables
 var lsystem, turtle, rules, properties;
 var lightHelper;
-var guiproperties = { iterations: 3 };
+var guiproperties = { hue: 0, dhue: 0, rotation: Math.PI/2, iterations: 3 };
 var afolder, lfolder;
 
 var treeparts;
 
 var init = function() {
+	// Initialize growth variables
+	lsystem = new LSystem('', '', '{}', {});
+
+	
+	configureGUI();
 	// Initialize render variables
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
@@ -59,13 +64,9 @@ var init = function() {
 	floor.position.y = -0.5;
 	floor.rotation.x = Math.PI / 2;
 	scene.add(floor);
-
-	// Initialize growth variables
-	lsystem = new LSystem('', '', '{}', {});
+	runSystem();
 
 	
-	configureGUI();
-	runSystem();
 };
 
 var animate = function() {
@@ -79,7 +80,7 @@ var render = function() {
 };
 
 var configureGUI = function() {
-	gui = new dat.GUI({ load: getExamples(), preset: 'Hilbert' });
+	gui = new dat.GUI({ load: getExamples(), preset: 'Tree' });
 	gui.remember(lsystem.properties);
 	gui.remember(lsystem);
 	//gui.remember(turtle.dTheta);
@@ -96,8 +97,7 @@ var configureGUI = function() {
 	afolder = gui.addFolder('Appearance');
 	// afolder.add(guiproperties, 'dhue', 0, 100);
 	afolder.add(guiproperties, 'iterations', 0, 16).step(1).onFinishChange(function(){runSystem();});
-	// afolder.add(guiproperties, 'zoom', 0, 100);
-	// afolder.add(guiproperties, 'rotation', 0, 360);
+	afolder.add(guiproperties, 'rotation', 0, 360).onFinishChange(function(){runSystem();});
 };
 
 // Initialize our program and begin animation.
